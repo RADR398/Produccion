@@ -71,6 +71,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(Color.DARK_GRAY);
         jPanel1.setBackground(new java.awt.Color(51, 53, 62));
@@ -245,6 +250,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        setExtendedState(MAXIMIZED_BOTH);
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
