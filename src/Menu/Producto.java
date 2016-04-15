@@ -58,6 +58,8 @@ public class Producto extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        Numero_trab = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -138,6 +140,8 @@ public class Producto extends javax.swing.JInternalFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione Método", "Persecución", "Fuerza Nivelada y Horas Extras", "Fuerza Nivelada y Outsourcing", " " }));
 
+        jLabel5.setText("Numero de Trabajadores Iniciales");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -178,22 +182,27 @@ public class Producto extends javax.swing.JInternalFrame {
                                         .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addGap(90, 90, 90)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(jLabel2)
-                                    .addGap(52, 52, 52))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(52, 52, 52))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel17)
+                                            .addComponent(jLabel15)
+                                            .addComponent(jLabel16)
+                                            .addComponent(jLabel14))
+                                        .addGap(122, 122, 122)))
                                 .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel17)
-                                        .addComponent(jLabel15)
-                                        .addComponent(jLabel16)
-                                        .addComponent(jLabel14))
-                                    .addGap(122, 122, 122)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jTextField17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField18, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(jLabel5)
+                                    .addGap(69, 69, 69)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(Numero_trab, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
@@ -245,13 +254,16 @@ public class Producto extends javax.swing.JInternalFrame {
                         .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5)
+                        .addComponent(Numero_trab, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -265,13 +277,111 @@ public class Producto extends javax.swing.JInternalFrame {
         
             case 1: Metodo_Persecucion();
                 break;
+            case 2: Metodo_Fuerza_nivelada();
+                break;
             
         }
         
         
     }//GEN-LAST:event_jLabel3MouseClicked
 
-    
+    public void Metodo_Fuerza_nivelada() {
+       
+        DefaultTableModel modelo = (DefaultTableModel)jTable1.getModel();
+        mimodelo = new DefaultTableModel(){
+        
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            }
+        
+        };
+        mimodelo.addColumn("Meses", new String[]{
+            
+            "Produccion requeridas","Horas de Produccion Requeridas",
+            "Dias laborables","Horas disponibles / mes",
+            "Horas total diponibles","Horas extras requeridas",
+            "Horas ociosas","Costo de produccion (Hrs/ normal)","Costo de horas extra",
+            "Subtotal","Total"
+        });
+        mimodelo.addColumn("Enero");
+        mimodelo.addColumn("Febrero");
+        mimodelo.addColumn("Marzo");
+        mimodelo.addColumn("Abril");
+        mimodelo.addColumn("Mayo");
+        mimodelo.addColumn("Junio");
+        mimodelo.addColumn("Julio");
+        mimodelo.addColumn("Agosto");
+        mimodelo.addColumn("Septiembre");
+        mimodelo.addColumn("Octubre");
+        mimodelo.addColumn("Noviembre");
+        mimodelo.addColumn("Diciembre");
+        
+        double btn_inventario_seguridad = Double.parseDouble(jTextField19.getText().trim());
+        double btn_inventario_inicial = Double.parseDouble(jTextField13.getText().trim());
+        double btn_costo_inventario_agotado = Double.parseDouble(jTextField11.getText().trim());
+        double btn_costo_capacitacion = Double.parseDouble(jTextField18.getText().trim());
+        double btn_costo_despido = Double.parseDouble(jTextField14.getText().trim());
+        double btn_costo_tiempo_normal = Double.parseDouble(jTextField16.getText().trim());
+        double btn_costo_tiempo_extra = Double.parseDouble(jTextField17.getText().trim());
+        double numero_trab =Double.parseDouble(Numero_trab.getText().trim());
+        double tot = 0;
+        
+        for(int i=1;i<=modelo.getColumnCount();i++){
+           double dato = Double.parseDouble(modelo.getValueAt(0, i-1).toString());
+           double dato_1 = dato*btn_inventario_seguridad;
+           double PrimeraFila = dato+dato_1-btn_inventario_inicial;
+           double SegundaFila = PrimeraFila*btn_costo_inventario_agotado;
+           double TerceraFila = Double.parseDouble(modelo.getValueAt(1, i-1).toString());
+           double CuartaFila =  8*TerceraFila;
+           double QuintaFila = numero_trab*CuartaFila;
+           double SextaFila ;
+           double SeptimaFila;
+           if(QuintaFila-SegundaFila > 0){
+           
+            SextaFila = 0;
+            SeptimaFila = QuintaFila-SegundaFila;
+           }
+           else if(QuintaFila-SegundaFila < 0)
+           {
+          SextaFila = SegundaFila-QuintaFila;
+           SeptimaFila = 0;
+        }
+           else{
+           
+            SextaFila = 0;
+            SeptimaFila = 0;
+           }
+       
+           double OctabaFila = SegundaFila*btn_costo_tiempo_normal;
+           double NovenaFila = SextaFila*btn_costo_tiempo_extra;
+           double DecimaFila = OctabaFila+NovenaFila;
+           tot+=DecimaFila;
+           mimodelo.setValueAt(PrimeraFila, 0, i);
+           mimodelo.setValueAt(SegundaFila, 1, i);
+           mimodelo.setValueAt(TerceraFila, 2, i);
+           mimodelo.setValueAt(CuartaFila, 3, i);
+           mimodelo.setValueAt(QuintaFila, 4, i);
+           mimodelo.setValueAt(SextaFila, 5, i);
+           mimodelo.setValueAt(SeptimaFila, 6, i);
+           mimodelo.setValueAt(OctabaFila, 7, i);
+           mimodelo.setValueAt(NovenaFila, 8, i);
+           mimodelo.setValueAt(DecimaFila, 9, i);
+          
+           btn_inventario_inicial  = dato_1;
+           
+        }
+        
+        mimodelo.setValueAt(tot, 10, 1);
+        
+        Metodo metodo = new Metodo();
+        metodo.setVisible(true);
+        VentanaPrincipal.fondoInternal.add(metodo);
+        metodo.p = this;
+        this.setVisible(false);
+
+}
+
     public void Metodo_Persecucion(){
     
         DefaultTableModel modelo = (DefaultTableModel)jTable1.getModel();
@@ -375,6 +485,7 @@ public class Producto extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField Numero_trab;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
@@ -389,6 +500,7 @@ public class Producto extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField10;
