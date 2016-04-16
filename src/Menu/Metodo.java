@@ -14,7 +14,7 @@ import javax.swing.table.TableColumnModel;
  */
 public class Metodo extends javax.swing.JInternalFrame {
 
-    public Producto p;
+    public PlanAgregado p;
     public Metodo() {
         initComponents();
         jTable1.setDefaultRenderer(Object.class, new ColumnaRendererMiModelo());
@@ -44,7 +44,7 @@ public class Metodo extends javax.swing.JInternalFrame {
             e1.printStackTrace();
         }
 
-        jTable1.setModel(Producto.mimodelo);
+        jTable1.setModel(PlanAgregado.mimodelo);
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setText("Atras");

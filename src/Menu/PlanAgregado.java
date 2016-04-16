@@ -13,13 +13,14 @@ import producción.VentanaPrincipal;
  *
  * @author panda
  */
-public class Producto extends javax.swing.JInternalFrame {
+public class PlanAgregado extends javax.swing.JInternalFrame {
 
     public static DefaultTableModel mimodelo;
  
     
-    public Producto() {
+    public PlanAgregado() {
         initComponents();
+       
     }
 
     /**
@@ -139,6 +140,11 @@ public class Producto extends javax.swing.JInternalFrame {
         jLabel4.setText("Tipo de Metodo");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione Método", "Persecución", "Fuerza Nivelada y Horas Extras", "Fuerza Nivelada y Outsourcing", " " }));
+        jComboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBox1MouseClicked(evt);
+            }
+        });
 
         jLabel5.setText("Numero de Trabajadores Iniciales");
 
@@ -279,12 +285,107 @@ public class Producto extends javax.swing.JInternalFrame {
                 break;
             case 2: Metodo_Fuerza_nivelada();
                 break;
+            case 3: Metodo_Outsourcing();
+                break;
             
         }
         
         
     }//GEN-LAST:event_jLabel3MouseClicked
 
+    public void Metodo_Outsourcing(){
+    
+        DefaultTableModel modelo = (DefaultTableModel)jTable1.getModel();
+        mimodelo = new DefaultTableModel(){
+        
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            }
+        
+        };
+        mimodelo.addColumn("Meses", new String[]{
+            
+            "Requerimiento de Produccion","Horas de Produccion Requeridas",
+            "Dias Habiles por mes","Horas al mes por trabajar",
+            "Horas Totales Disponibles","Unidades Producidas",
+            "Unidades Faltantes","Unidades sobrantes","Costo del Tiempo Normal",
+            "Costo de subcontratación","Horas mantenimiento","Total"
+        });
+        mimodelo.addColumn("Enero");
+        mimodelo.addColumn("Febrero");
+        mimodelo.addColumn("Marzo");
+        mimodelo.addColumn("Abril");
+        mimodelo.addColumn("Mayo");
+        mimodelo.addColumn("Junio");
+        mimodelo.addColumn("Julio");
+        mimodelo.addColumn("Agosto");
+        mimodelo.addColumn("Septiembre");
+        mimodelo.addColumn("Octubre");
+        mimodelo.addColumn("Noviembre");
+        mimodelo.addColumn("Diciembre");
+        
+        double btn_inventario_seguridad = Double.parseDouble(jTextField19.getText().trim());
+        double btn_inventario_inicial = Double.parseDouble(jTextField13.getText().trim());
+        double btn_costo_marginal_inventario = Double.parseDouble(jTextField11.getText().trim());
+        double btn_costo_producto = Double.parseDouble(jTextField9.getText().trim());
+        double btn_costo_outsourcing = Double.parseDouble(jTextField12.getText().trim());
+        double btn_costo_tiempo_normal = Double.parseDouble(jTextField16.getText().trim());
+        double btn_trabajadores_iniciales = Double.parseDouble(Numero_trab.getText().trim());
+        double bnt_costo_mantenimiento = Double.parseDouble(jTextField10.getText().trim());
+        double tot = 0;
+        
+        for(int i=1;i<=modelo.getColumnCount();i++){
+           double dato = Double.parseDouble(modelo.getValueAt(0, i-1).toString());
+           double dato_1 = dato*btn_inventario_seguridad;
+           double PrimeraFila = dato+dato_1-btn_inventario_inicial;
+           double SegundaFila = PrimeraFila*btn_costo_marginal_inventario;
+           double TerceraFila = Double.parseDouble(modelo.getValueAt(1, i-1).toString());
+           double CuartaFila =  8*TerceraFila;
+           double QuintaFila = btn_trabajadores_iniciales*8*TerceraFila;
+           double SextaFila = QuintaFila/btn_costo_marginal_inventario;
+           double SeptimaFila = PrimeraFila-SextaFila;
+                if (SeptimaFila <=-1){
+                    SeptimaFila = 0;
+                }
+           
+           double OctabaFila = SextaFila-PrimeraFila;
+                if (OctabaFila <=-1){
+                     OctabaFila = 0;
+                 }
+           double NovenaFila = SegundaFila*btn_costo_tiempo_normal;
+           double DecimaFila = SeptimaFila*(btn_costo_outsourcing-btn_costo_producto);
+           double OnceabaFila = OctabaFila*bnt_costo_mantenimiento;
+           double Doceaba = NovenaFila+DecimaFila+OnceabaFila;
+           tot+=Doceaba;
+           
+           //Hacen falta validaciones en el faltante y en los meses que no se esten evaluando 
+           
+           mimodelo.setValueAt(PrimeraFila, 0, i);
+           mimodelo.setValueAt(SegundaFila, 1, i);
+           mimodelo.setValueAt(TerceraFila, 2, i);
+           mimodelo.setValueAt(CuartaFila, 3, i);
+           mimodelo.setValueAt(QuintaFila, 4, i);
+           mimodelo.setValueAt(SextaFila, 5, i);
+           mimodelo.setValueAt(SeptimaFila, 6, i);
+           mimodelo.setValueAt(OctabaFila, 7, i);
+           mimodelo.setValueAt(NovenaFila, 8, i);
+           mimodelo.setValueAt(DecimaFila, 9, i);
+           mimodelo.setValueAt(OnceabaFila, 10, i);
+           btn_inventario_inicial  = dato_1;
+           
+        }
+        
+        mimodelo.setValueAt(tot, 11, 1);
+        
+        Metodo metodo = new Metodo();
+        metodo.setVisible(true);
+        VentanaPrincipal.fondoInternal.add(metodo);
+        metodo.p = this;
+        this.setVisible(false);
+    
+    }
+    
     public void Metodo_Fuerza_nivelada() {
        
         DefaultTableModel modelo = (DefaultTableModel)jTable1.getModel();
@@ -482,6 +583,26 @@ public class Producto extends javax.swing.JInternalFrame {
         jTable1.setDefaultRenderer(Object.class,new ColumnaRenderer());
         jTable1.setFocusable(true);
     }//GEN-LAST:event_jTable1MousePressed
+    public final void Enabled(){
+    
+        jTextField10.setEnabled(false);
+        jTextField11.setEnabled(false);
+        jTextField12.setEnabled(false);
+        jTextField13.setEnabled(false);
+        jTextField14.setEnabled(false);
+        jTextField15.setEnabled(false);
+        jTextField16.setEnabled(false);
+        jTextField17.setEnabled(false);
+        jTextField18.setEnabled(false);
+        jTextField19.setEnabled(false);
+       
+        
+    
+    }
+    private void jComboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox1MouseClicked
+      
+        
+    }//GEN-LAST:event_jComboBox1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

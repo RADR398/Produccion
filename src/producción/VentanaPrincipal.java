@@ -7,8 +7,9 @@ package producción;
 
 
 import Clases.Fondo;
-
-import Menu.Producto;
+import Clases.NewHibernateUtil;
+import Menu.PlanAgregado;
+import Menu.ProductoInternal;
 import java.awt.Color;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -26,11 +27,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private GraphicsDevice screen;
     private boolean flag = true;
+    ProductoInternal p;
    
     
     
     public VentanaPrincipal() {
         initComponents();
+        NewHibernateUtil.getSessionFactory("root", "1234");
         init();
     }
 
@@ -244,7 +247,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         
-        Producto p = new Producto();
+        PlanAgregado p = new PlanAgregado();
         p.setVisible(true);
         fondoInternal.add(p);
         
