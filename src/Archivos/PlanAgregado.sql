@@ -15,7 +15,7 @@ primary key(IdJornada)
 create table Producto
 (
 IdProducto int not null auto_increment,
-Codigo int not null,
+Codigo varchar(5) not null,
 Nombre varchar(30),
 Descripcion varchar(100),
 primary key(IdProducto)

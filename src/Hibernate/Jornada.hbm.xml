@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 15-abr-2016 11:59:05 by Hibernate Tools 4.3.1 -->
+<!-- Generated 16-abr-2016 20:57:59 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="Hibernate.Jornada" table="jornada" catalog="inventario" optimistic-lock="version">
         <id name="idJornada" type="java.lang.Integer">
@@ -11,11 +11,17 @@
         <property name="año" type="int">
             <column name="Año" not-null="true" />
         </property>
-        <set name="datoses" table="datos" inverse="true" lazy="true" fetch="select">
+        <set name="datosgeneraleses" table="datosgenerales" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="IdJornada" not-null="true" />
             </key>
-            <one-to-many class="Hibernate.Datos" />
+            <one-to-many class="Hibernate.Datosgenerales" />
+        </set>
+        <set name="datosmeses" table="datosmes" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="IdJornada" not-null="true" />
+            </key>
+            <one-to-many class="Hibernate.Datosmes" />
         </set>
     </class>
 </hibernate-mapping>

@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 16-abr-2016 20:57:59 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Hibernate.Datosgenerales" table="datosgenerales" catalog="inventario" optimistic-lock="version">
+        <id name="idDatosGenerales" type="java.lang.Integer">
+            <column name="IdDatosGenerales" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="jornada" class="Hibernate.Jornada" fetch="select">
+            <column name="IdJornada" not-null="true" />
+        </many-to-one>
+        <many-to-one name="producto" class="Hibernate.Producto" fetch="select">
+            <column name="IdProducto" not-null="true" />
+        </many-to-one>
+        <property name="costoContratacion" type="java.lang.Float">
+            <column name="CostoContratacion" precision="12" scale="0" />
+        </property>
+        <property name="costoDespido" type="java.lang.Float">
+            <column name="CostoDespido" precision="12" scale="0" />
+        </property>
+        <property name="costoSubcontratacion" type="java.lang.Float">
+            <column name="CostoSubcontratacion" precision="12" scale="0" />
+        </property>
+        <property name="stockSeguridad" type="java.lang.Float">
+            <column name="StockSeguridad" precision="12" scale="0" />
+        </property>
+        <property name="inversionInicial" type="java.lang.Float">
+            <column name="InversionInicial" precision="12" scale="0" />
+        </property>
+        <property name="numeroTrabajadores" type="java.lang.Float">
+            <column name="NumeroTrabajadores" precision="12" scale="0" />
+        </property>
+        <property name="costoHoraNormal" type="java.lang.Float">
+            <column name="CostoHoraNormal" precision="12" scale="0" />
+        </property>
+        <property name="costoHoraExtra" type="java.lang.Float">
+            <column name="CostoHoraExtra" precision="12" scale="0" />
+        </property>
+        <property name="horasRequeridas" type="java.lang.Float">
+            <column name="HorasRequeridas" precision="12" scale="0" />
+        </property>
+        <property name="materiales" type="java.lang.Float">
+            <column name="Materiales" precision="12" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>

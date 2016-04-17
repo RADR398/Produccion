@@ -1,5 +1,5 @@
 package Hibernate;
-// Generated 15-abr-2016 11:59:02 by Hibernate Tools 4.3.1
+// Generated 16-abr-2016 20:57:58 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -15,21 +15,20 @@ public class Producto  implements java.io.Serializable {
      private String codigo;
      private String nombre;
      private String descripcion;
-     private Set datoses = new HashSet(0);
+     private Set datosgeneraleses = new HashSet(0);
 
     public Producto() {
     }
 
 	
-    public Producto(String codigo, String nombre) {
+    public Producto(String codigo) {
         this.codigo = codigo;
-        this.nombre = nombre;
     }
-    public Producto(String codigo, String nombre, String descripcion, Set datoses) {
+    public Producto(String codigo, String nombre, String descripcion, Set datosgeneraleses) {
        this.codigo = codigo;
        this.nombre = nombre;
        this.descripcion = descripcion;
-       this.datoses = datoses;
+       this.datosgeneraleses = datosgeneraleses;
     }
    
     public Integer getIdProducto() {
@@ -60,12 +59,12 @@ public class Producto  implements java.io.Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    public Set getDatoses() {
-        return this.datoses;
+    public Set getDatosgeneraleses() {
+        return this.datosgeneraleses;
     }
     
-    public void setDatoses(Set datoses) {
-        this.datoses = datoses;
+    public void setDatosgeneraleses(Set datosgeneraleses) {
+        this.datosgeneraleses = datosgeneraleses;
     }
 
 

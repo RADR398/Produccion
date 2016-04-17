@@ -1,5 +1,5 @@
 package Hibernate;
-// Generated 15-abr-2016 11:59:02 by Hibernate Tools 4.3.1
+// Generated 16-abr-2016 20:57:58 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -13,42 +13,52 @@ public class Jornada  implements java.io.Serializable {
 
      private Integer idJornada;
      private int año;
-     private Set datoses = new HashSet(0);
+     private Set datosgeneraleses = new HashSet(0);
+     private Set datosmeses = new HashSet(0);
 
     public Jornada() {
     }
 
-    public Jornada(Integer idJornada, int año,Set datoses) {
-        this.idJornada = idJornada;
+	
+    public Jornada(int año) {
         this.año = año;
-        this.datoses = datoses;
     }
-
+    public Jornada(int año, Set datosgeneraleses, Set datosmeses) {
+       this.año = año;
+       this.datosgeneraleses = datosgeneraleses;
+       this.datosmeses = datosmeses;
+    }
+   
     public Integer getIdJornada() {
-        return idJornada;
+        return this.idJornada;
     }
-
+    
     public void setIdJornada(Integer idJornada) {
         this.idJornada = idJornada;
     }
-
     public int getAño() {
-        return año;
+        return this.año;
     }
-
+    
     public void setAño(int año) {
         this.año = año;
     }
-
-    public Set getDatoses() {
-        return datoses;
+    public Set getDatosgeneraleses() {
+        return this.datosgeneraleses;
     }
-
-    public void setDatoses(Set datoses) {
-        this.datoses = datoses;
-    }
-
     
+    public void setDatosgeneraleses(Set datosgeneraleses) {
+        this.datosgeneraleses = datosgeneraleses;
+    }
+    public Set getDatosmeses() {
+        return this.datosmeses;
+    }
+    
+    public void setDatosmeses(Set datosmeses) {
+        this.datosmeses = datosmeses;
+    }
+
+
 
 
 }

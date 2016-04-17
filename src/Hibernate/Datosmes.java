@@ -1,5 +1,5 @@
 package Hibernate;
-// Generated 15-abr-2016 11:59:02 by Hibernate Tools 4.3.1
+// Generated 16-abr-2016 20:57:58 by Hibernate Tools 4.3.1
 
 
 
@@ -10,7 +10,7 @@ public class Datosmes  implements java.io.Serializable {
 
 
      private Integer idDatosMes;
-     private Datos datos;
+     private Jornada jornada;
      private Mes mes;
      private int demanda;
      private int diasHabiles;
@@ -18,8 +18,8 @@ public class Datosmes  implements java.io.Serializable {
     public Datosmes() {
     }
 
-    public Datosmes(Datos datos, Mes mes, int demanda, int diasHabiles) {
-       this.datos = datos;
+    public Datosmes(Jornada jornada, Mes mes, int demanda, int diasHabiles) {
+       this.jornada = jornada;
        this.mes = mes;
        this.demanda = demanda;
        this.diasHabiles = diasHabiles;
@@ -32,12 +32,12 @@ public class Datosmes  implements java.io.Serializable {
     public void setIdDatosMes(Integer idDatosMes) {
         this.idDatosMes = idDatosMes;
     }
-    public Datos getDatos() {
-        return this.datos;
+    public Jornada getJornada() {
+        return this.jornada;
     }
     
-    public void setDatos(Datos datos) {
-        this.datos = datos;
+    public void setJornada(Jornada jornada) {
+        this.jornada = jornada;
     }
     public Mes getMes() {
         return this.mes;

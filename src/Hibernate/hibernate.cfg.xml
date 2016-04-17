@@ -7,8 +7,8 @@
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/Inventario?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">1234</property>
-    <mapping resource="Hibernate/Datos.hbm.xml"/>
     <mapping resource="Hibernate/Jornada.hbm.xml"/>
+    <mapping resource="Hibernate/Datosgenerales.hbm.xml"/>
     <mapping resource="Hibernate/Mes.hbm.xml"/>
     <mapping resource="Hibernate/Producto.hbm.xml"/>
     <mapping resource="Hibernate/Datosmes.hbm.xml"/>
