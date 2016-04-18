@@ -6,19 +6,25 @@
 package Menu;
 
 import Clases.DAO;
+import Clases.ModeloTable;
 import Clases.NewHibernateUtil;
+import Hibernate.DatosGenerales;
+import Hibernate.DatosMes;
 import Hibernate.Producto;
 import java.util.List;
 import java.util.Random;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 import producción.VentanaPrincipal;
-
 /**
  *
  * @author Panda
@@ -29,12 +35,14 @@ public class ProductoInternal extends javax.swing.JInternalFrame {
      * Creates new form Producto
      */
     
+    
+    
     public int value = 0;
+    boolean flag_nuevo;
+    public Producto pr;
+   
     public ProductoInternal() {
         initComponents();
-        
-        TableColumnModel modelo = PRODUCTOS.getColumnModel();
-        modelo.getColumn(2).setPreferredWidth(200);
         Buscar("");
     }
 
@@ -52,10 +60,7 @@ public class ProductoInternal extends javax.swing.JInternalFrame {
             query.add(or);
 
         }
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("Codigo");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Descripcion");
+        DefaultTableModel modelo = new ModeloTable();
         List<Producto> productos = query.list();
         
         productos.stream().forEach((producto) -> {
@@ -63,6 +68,8 @@ public class ProductoInternal extends javax.swing.JInternalFrame {
                 producto.getDescripcion()});
         });
         PRODUCTOS.setModel(modelo);
+        TableColumnModel columnModel = PRODUCTOS.getColumnModel();
+        columnModel.getColumn(2).setPreferredWidth(200);
         session.close();
     
     }
@@ -106,7 +113,8 @@ public  String getCadenaAlfanumAleatoria (int longitud){
         jPanel1 = new javax.swing.JPanel();
         NUEVO = new javax.swing.JButton();
         GUARDAR = new javax.swing.JButton();
-        AÑADIR = new javax.swing.JButton();
+        btn_Añadir = new javax.swing.JButton();
+        btn_gestionar = new javax.swing.JButton();
         CODIGO = new javax.swing.JLabel();
 
         setClosable(true);
@@ -125,161 +133,165 @@ public  String getCadenaAlfanumAleatoria (int longitud){
             }
         });
 
-        PRODUCTOS.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Codigo", "Nombre", "Descripcion"
+        PRODUCTOS.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PRODUCTOSMouseClicked(evt);
             }
-        ){
-            public boolean isCellEditable(int row, int col) {
-                return true;
+        });
+        jScrollPane1.setViewportView(PRODUCTOS);
 
+        jLabel2.setText("CODIGO:");
+
+        jLabel3.setText("NOMBRE:");
+
+        jLabel4.setText("DESCRIPCION:");
+
+        NOMBRE.setEnabled(false);
+
+        DESCRIPCION.setColumns(20);
+        DESCRIPCION.setRows(5);
+        DESCRIPCION.setEnabled(false);
+        jScrollPane2.setViewportView(DESCRIPCION);
+
+        jLabel5.setText("INVENTARIO");
+
+        INVENTARIO.setEnabled(false);
+        INVENTARIO.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                INVENTARIOActionPerformed(evt);
             }
-        }
+        });
 
-    );
-    PRODUCTOS.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-            PRODUCTOSMouseClicked(evt);
-        }
-    });
-    jScrollPane1.setViewportView(PRODUCTOS);
+        jPanel1.setBackground(java.awt.Color.darkGray);
 
-    jLabel2.setText("CODIGO:");
+        NUEVO.setForeground(new java.awt.Color(255, 255, 255));
+        NUEVO.setText("Nuevo Producto");
+        NUEVO.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NUEVOActionPerformed(evt);
+            }
+        });
 
-    jLabel3.setText("NOMBRE:");
+        GUARDAR.setForeground(new java.awt.Color(255, 255, 255));
+        GUARDAR.setText("Guardar Producto");
+        GUARDAR.setEnabled(false);
+        GUARDAR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GUARDARActionPerformed(evt);
+            }
+        });
 
-    jLabel4.setText("DESCRIPCION:");
+        btn_Añadir.setForeground(new java.awt.Color(255, 255, 255));
+        btn_Añadir.setText("Ver Inventario");
+        btn_Añadir.setEnabled(false);
+        btn_Añadir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_AñadirActionPerformed(evt);
+            }
+        });
 
-    NOMBRE.setEnabled(false);
+        btn_gestionar.setForeground(new java.awt.Color(254, 254, 254));
+        btn_gestionar.setText("Gestionar Inventario");
+        btn_gestionar.setEnabled(false);
+        btn_gestionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_gestionarActionPerformed(evt);
+            }
+        });
 
-    DESCRIPCION.setColumns(20);
-    DESCRIPCION.setRows(5);
-    DESCRIPCION.setEnabled(false);
-    jScrollPane2.setViewportView(DESCRIPCION);
-
-    jLabel5.setText("INVENTARIO");
-
-    jPanel1.setBackground(java.awt.Color.darkGray);
-
-    NUEVO.setForeground(new java.awt.Color(255, 255, 255));
-    NUEVO.setText("Nuevo Producto");
-    NUEVO.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            NUEVOActionPerformed(evt);
-        }
-    });
-
-    GUARDAR.setForeground(new java.awt.Color(255, 255, 255));
-    GUARDAR.setText("Guardar Producto");
-    GUARDAR.setEnabled(false);
-    GUARDAR.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            GUARDARActionPerformed(evt);
-        }
-    });
-
-    AÑADIR.setForeground(new java.awt.Color(255, 255, 255));
-    AÑADIR.setText("Añadir Inventario");
-    AÑADIR.setEnabled(false);
-    AÑADIR.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            AÑADIRActionPerformed(evt);
-        }
-    });
-
-    javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-    jPanel1.setLayout(jPanel1Layout);
-    jPanel1Layout.setHorizontalGroup(
-        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel1Layout.createSequentialGroup()
-            .addGap(20, 20, 20)
-            .addComponent(NUEVO)
-            .addGap(38, 38, 38)
-            .addComponent(GUARDAR)
-            .addGap(40, 40, 40)
-            .addComponent(AÑADIR)
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-    );
-    jPanel1Layout.setVerticalGroup(
-        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel1Layout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
                 .addComponent(NUEVO)
+                .addGap(38, 38, 38)
                 .addComponent(GUARDAR)
-                .addComponent(AÑADIR))
-            .addContainerGap(16, Short.MAX_VALUE))
-    );
+                .addGap(40, 40, 40)
+                .addComponent(btn_Añadir)
+                .addGap(37, 37, 37)
+                .addComponent(btn_gestionar, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(NUEVO)
+                    .addComponent(GUARDAR)
+                    .addComponent(btn_Añadir)
+                    .addComponent(btn_gestionar))
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
 
-    CODIGO.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-    CODIGO.setPreferredSize(new java.awt.Dimension(45, 20));
+        CODIGO.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        CODIGO.setPreferredSize(new java.awt.Dimension(45, 20));
 
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-    getContentPane().setLayout(layout);
-    layout.setHorizontalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(jScrollPane1)
-            .addContainerGap())
-        .addGroup(layout.createSequentialGroup()
-            .addGap(25, 25, 25)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel4)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING))
-                    .addGap(38, 38, 38)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(NOMBRE, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(CODIGO, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 149, Short.MAX_VALUE)
-                            .addComponent(jLabel5)
-                            .addGap(38, 38, 38)
-                            .addComponent(INVENTARIO, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(jLabel1)
-                    .addGap(18, 18, 18)
-                    .addComponent(BUSCAR, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGap(27, 27, 27))
-        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-    );
-    layout.setVerticalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(18, 18, 18)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(CODIGO, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(38, 38, 38)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(NOMBRE, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(CODIGO, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 149, Short.MAX_VALUE)
+                                .addComponent(jLabel5)
+                                .addGap(38, 38, 38)
+                                .addComponent(INVENTARIO, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(BUSCAR, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(27, 27, 27))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(CODIGO, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(INVENTARIO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5)))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(INVENTARIO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)))
-            .addGap(18, 18, 18)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel3)
-                .addComponent(NOMBRE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(18, 18, 18)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jLabel4)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(36, 36, 36)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel1)
-                .addComponent(BUSCAR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(20, 20, 20))
-    );
+                    .addComponent(jLabel3)
+                    .addComponent(NOMBRE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(BUSCAR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
+        );
 
-    pack();
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void GUARDARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GUARDARActionPerformed
@@ -287,17 +299,30 @@ public  String getCadenaAlfanumAleatoria (int longitud){
        p.setCodigo(CODIGO.getText());
        p.setNombre(NOMBRE.getText().trim());
        p.setDescripcion(DESCRIPCION.getText().trim());
-       boolean resultado = DAO.GuardarOrUpdate(p);
+       boolean resultado = DAO.SaveOrUpdate(p);
        
        if(resultado){
            
            JOptionPane.showMessageDialog(this, "Se ha guardado el producto con exito");
-           Vacio();
-           DESCRIPCION.setEnabled(false);
-           NOMBRE.setEnabled(false);
-           GUARDAR.setEnabled(false);
-           AÑADIR.setEnabled(false);
+           
+           
            Buscar("");
+           int opcion = JOptionPane.showConfirmDialog(this, "Desea añadir Inventario", 
+                   "Mensaje de confirmacion", JOptionPane.YES_NO_OPTION);
+           
+           if(opcion != JOptionPane.YES_OPTION){
+           
+               Vacio();
+               DESCRIPCION.setEnabled(false);
+               NOMBRE.setEnabled(false);
+               GUARDAR.setEnabled(false);
+               btn_Añadir.setEnabled(false);
+               
+           }else{
+           
+                INVENTARIO.setEnabled(true);
+               
+           }
        }else{
        
            JOptionPane.showMessageDialog(this, "Ha ocurrido un error este producto no se ha guardado"
@@ -311,18 +336,23 @@ public  String getCadenaAlfanumAleatoria (int longitud){
         CODIGO.setText("");
         NOMBRE.setText("");
         DESCRIPCION.setText("");
-       
+        INVENTARIO = new JComboBox();
         
     
     }
     
     private void NUEVOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NUEVOActionPerformed
+                
+
         CODIGO.setText(getCadenaAlfanumAleatoria(5));
         DESCRIPCION.setEnabled(true);
         NOMBRE.setEnabled(true);
         GUARDAR.setEnabled(true);
-        AÑADIR.setEnabled(true);
         
+        DefaultComboBoxModel modelo = (DefaultComboBoxModel)INVENTARIO.getModel();
+        modelo.addElement("Seleccionar Opcion");
+        modelo.addElement("Año "+DAO.InventarioActual());
+        flag_nuevo = true;
         
     }//GEN-LAST:event_NUEVOActionPerformed
 
@@ -332,11 +362,9 @@ public  String getCadenaAlfanumAleatoria (int longitud){
         
     }//GEN-LAST:event_BUSCARKeyReleased
 
-    private void AÑADIRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AÑADIRActionPerformed
-        PlanAgregado agregado = new PlanAgregado();
-        agregado.setVisible(true);
-        VentanaPrincipal.fondoInternal.add(agregado);
-    }//GEN-LAST:event_AÑADIRActionPerformed
+    private void btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AñadirActionPerformed
+        
+    }//GEN-LAST:event_btn_AñadirActionPerformed
 
     private void PRODUCTOSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PRODUCTOSMouseClicked
         if(value==1){
@@ -346,13 +374,54 @@ public  String getCadenaAlfanumAleatoria (int longitud){
             Producto p = (Producto)query
                    .add(Restrictions.eq("codigo",PRODUCTOS.getValueAt(PRODUCTOS.getSelectedRow(),0).toString()))
                    .uniqueResult();
-            
+            System.out.println(p.getIdProducto());
             CODIGO.setText(p.getCodigo());
             NOMBRE.setText(p.getNombre());
             DESCRIPCION.setText(p.getDescripcion());
             
             value = 0;
-        
+            String consulta = "select j.Año "
+                            + "from Producto as p inner join DatosGenerales d "
+                            + "on p.IdProducto = d.IdProducto "
+                            + "inner join Jornada as j "
+                            + "on j.IdJornada = d.IdJornada "
+                            + "where p.IdProducto=:idproducto "
+                            + "order by d.IdDatosGenerales asc";
+            
+            SQLQuery sql = session.createSQLQuery(String.format(consulta));
+            sql.setParameter("idproducto", p.getIdProducto());
+           
+            SQLQuery año = session.createSQLQuery(String.format("select year(curdate())"));
+            int añoval = Integer.parseInt(año.uniqueResult().toString());
+            DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+            modelo.addElement("Seleccionar Opcion");
+            
+            if(sql.list().size()==0){
+            
+                modelo.addElement("Año "+añoval);
+            
+            }
+            
+            sql.list().stream().forEach((i) -> {
+                if(Integer.parseInt(i.toString()) == añoval){
+                    String val = ("Año "+i.toString());
+                    modelo.addElement(val);
+                }else{
+                    
+                    modelo.addElement("Año "+añoval);
+                
+                }
+                
+            });
+            
+            
+            INVENTARIO.setModel(modelo);
+            INVENTARIO.setSelectedIndex(0);
+            session.close();
+            NOMBRE.setEnabled(true);
+            DESCRIPCION.setEnabled(true);
+            INVENTARIO.setEnabled(true);
+            pr = p;
         }else{
         
             value++;
@@ -360,9 +429,79 @@ public  String getCadenaAlfanumAleatoria (int longitud){
         }
     }//GEN-LAST:event_PRODUCTOSMouseClicked
 
+    private void INVENTARIOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_INVENTARIOActionPerformed
+         if(INVENTARIO.getSelectedIndex() != 0){
+            if(INVENTARIO.getSelectedItem().toString().equals(("Año ")+DAO.InventarioActual())){
+
+                btn_gestionar.setEnabled(true);
+
+
+            }else{
+
+                btn_Añadir.setEnabled(true);
+
+            } 
+        }
+    }//GEN-LAST:event_INVENTARIOActionPerformed
+
+    private void btn_gestionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_gestionarActionPerformed
+       
+       PlanAgregado p = new PlanAgregado();
+       p.setVisible(true);
+       p.productoInternal = this;
+       this.setVisible(false);
+       VentanaPrincipal.fondoInternal.add(p);
+        
+       String consulta = "select  d " +
+                         "from DatosGenerales d " +
+                         "where d.producto.idProducto = (select p.idProducto from Producto p where p.codigo = :codigo) " +
+                         "and d.jornada.idJornada = (select j.idJornada from Jornada j where j.año = year(curdate()))";
+     
+       
+       Session session = NewHibernateUtil.sessionFactory.openSession();
+       Query consulta_2 = session.createQuery(String.format(consulta));
+       consulta_2.setParameter("codigo", CODIGO.getText());
+      
+       
+       DatosGenerales val = (DatosGenerales)consulta_2.uniqueResult();
+       p.dgs = new DatosGenerales();
+       
+       if(val != null){
+           p.dgs = val;
+           p.txt_contratacion.setText(val.getCostoContratacion().toString());
+           p.txt_despido.setText(val.getCostoDespido().toString());
+           p.txt_horas_laborales.setText(val.getHorasRequeridas().toString());
+           p.txt_inventario_inicial.setText(val.getInversionInicial().toString());
+           p.txt_inventario_seguridad.setText(val.getStockSeguridad().toString());
+           p.txt_marginal_subcontratacion.setText(val.getCostoSubcontratacion().toString());
+           p.txt_materiales.setText(val.getMateriales().toString());
+           p.txt_mtto.setText(val.getCostoMantenimiento().toString());
+           p.txt_numero_trabajadores.setText(val.getNumeroTrabajadores().toString());
+           p.txt_tiempo_extra.setText(val.getCostoHoraExtra().toString());
+           p.txt_tiempo_normal.setText(val.getCostoHoraNormal().toString());
+           
+           DefaultTableModel modelo = (DefaultTableModel)p.datosMes.getModel();
+           SQLQuery consulta3 = session.createSQLQuery(String.format("select * from DatosMes "
+                   + "where IdDatos=:idDatos"));
+           consulta3.setParameter("idDatos", val.getIdDatosGenerales());
+           
+           List<DatosMes> meses = (List<DatosMes>)consulta3.list();
+           
+           meses.stream().map((m) -> {
+               modelo.setValueAt(m.getDemanda(), 0, m.getIdDatosMes()-1);
+               return m;
+           }).forEach((m) -> {
+               modelo.setValueAt(m.getDiasHabiles(), 1, m.getIdDatosMes()-1);
+           });
+          
+       
+       }
+        session.close();
+       
+    }//GEN-LAST:event_btn_gestionarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AÑADIR;
     private javax.swing.JTextField BUSCAR;
     private javax.swing.JLabel CODIGO;
     private javax.swing.JTextArea DESCRIPCION;
@@ -371,6 +510,8 @@ public  String getCadenaAlfanumAleatoria (int longitud){
     private javax.swing.JTextField NOMBRE;
     private javax.swing.JButton NUEVO;
     private javax.swing.JTable PRODUCTOS;
+    private javax.swing.JButton btn_Añadir;
+    private javax.swing.JButton btn_gestionar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

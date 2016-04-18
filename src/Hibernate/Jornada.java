@@ -1,5 +1,5 @@
 package Hibernate;
-// Generated 16-abr-2016 20:57:58 by Hibernate Tools 4.3.1
+// Generated 04-18-2016 10:44:33 AM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -13,8 +13,7 @@ public class Jornada  implements java.io.Serializable {
 
      private Integer idJornada;
      private int año;
-     private Set datosgeneraleses = new HashSet(0);
-     private Set datosmeses = new HashSet(0);
+     private Set datosGeneraleses = new HashSet(0);
 
     public Jornada() {
     }
@@ -23,10 +22,9 @@ public class Jornada  implements java.io.Serializable {
     public Jornada(int año) {
         this.año = año;
     }
-    public Jornada(int año, Set datosgeneraleses, Set datosmeses) {
+    public Jornada(int año, Set datosGeneraleses) {
        this.año = año;
-       this.datosgeneraleses = datosgeneraleses;
-       this.datosmeses = datosmeses;
+       this.datosGeneraleses = datosGeneraleses;
     }
    
     public Integer getIdJornada() {
@@ -43,19 +41,12 @@ public class Jornada  implements java.io.Serializable {
     public void setAño(int año) {
         this.año = año;
     }
-    public Set getDatosgeneraleses() {
-        return this.datosgeneraleses;
+    public Set getDatosGeneraleses() {
+        return this.datosGeneraleses;
     }
     
-    public void setDatosgeneraleses(Set datosgeneraleses) {
-        this.datosgeneraleses = datosgeneraleses;
-    }
-    public Set getDatosmeses() {
-        return this.datosmeses;
-    }
-    
-    public void setDatosmeses(Set datosmeses) {
-        this.datosmeses = datosmeses;
+    public void setDatosGeneraleses(Set datosGeneraleses) {
+        this.datosGeneraleses = datosGeneraleses;
     }
 
 

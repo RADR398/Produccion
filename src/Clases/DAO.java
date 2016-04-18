@@ -5,7 +5,9 @@
  */
 package Clases;
 
+import Hibernate.Jornada;
 import Hibernate.Producto;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -15,12 +17,12 @@ import org.hibernate.Transaction;
  */
 public class DAO {
     
-    public static boolean GuardarOrUpdate(Producto p){
+    public static boolean SaveOrUpdate(Producto p){
     
         try{
             Session session = NewHibernateUtil.sessionFactory.openSession();
             Transaction tx = session.beginTransaction();
-            session.save(p);
+            session.saveOrUpdate(p);
             tx.commit();
             
             session.flush();
@@ -31,5 +33,29 @@ public class DAO {
             
         }
         return true;
+    }
+    
+    public static String InventarioActual(){
+    
+        String consulta = "select year(curdate())";
+        Session session = NewHibernateUtil.sessionFactory.openSession();
+        SQLQuery queryConsulta = session.createSQLQuery(String.format(consulta));
+        String fecha = queryConsulta.uniqueResult().toString();
+        
+        SQLQuery query = session.createSQLQuery("select count(*) "
+                + "from Jornada "
+                + "where Año=year(curdate())");
+        int value = Integer.parseInt(query.uniqueResult().toString());
+        
+        if( value == 0){
+        
+            Jornada j = new Jornada(Integer.parseInt(fecha));
+            session.save(j);
+        
+        }
+        session.close();
+        
+        return fecha;
+    
     }
 }

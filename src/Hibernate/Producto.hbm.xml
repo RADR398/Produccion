@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 16-abr-2016 20:57:59 by Hibernate Tools 4.3.1 -->
+<!-- Generated 04-18-2016 10:44:33 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="Hibernate.Producto" table="producto" catalog="inventario" optimistic-lock="version">
+    <class name="Hibernate.Producto" table="Producto" catalog="Inventario" optimistic-lock="version">
         <id name="idProducto" type="java.lang.Integer">
             <column name="IdProducto" />
             <generator class="identity" />
@@ -17,11 +17,11 @@
         <property name="descripcion" type="string">
             <column name="Descripcion" length="100" />
         </property>
-        <set name="datosgeneraleses" table="datosgenerales" inverse="true" lazy="true" fetch="select">
+        <set name="datosGeneraleses" table="DatosGenerales" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="IdProducto" not-null="true" />
             </key>
-            <one-to-many class="Hibernate.Datosgenerales" />
+            <one-to-many class="Hibernate.DatosGenerales" />
         </set>
     </class>
 </hibernate-mapping>

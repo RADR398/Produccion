@@ -1,5 +1,6 @@
 use mysql;
 
+drop database Inventario;
 
 create database Inventario;
 
@@ -27,19 +28,6 @@ Nombre varchar(10) not null,
 primary key(IdMes)
 );
 
-create table DatosMes
-(
-IdDatosMes int not null auto_increment,
-IdMes int not null,
-IdJornada int not null,
-Demanda int not null,
-DiasHabiles int not null,
-primary key(IdDatosMes),
-foreign key(IdMes) references Mes(IdMes),
-foreign key(IdJornada) references Jornada(IdJornada)
-
-);
-
 create table DatosGenerales(
 IdDatosGenerales int not null auto_increment,
 IdProducto int not null,
@@ -54,10 +42,21 @@ CostoHoraNormal float,
 CostoHoraExtra float,
 HorasRequeridas float,
 Materiales float,
+Costo_Mantenimiento float,
 primary key(IdDatosGenerales),
 foreign key(IdJornada) references Jornada(IdJornada),
 foreign key(IdProducto) references Producto(IdProducto)
 );
 
-
+create table DatosMes
+(
+IdDatosMes int not null auto_increment,
+IdMes int not null,
+IdDatos int not null,
+Demanda int not null,
+DiasHabiles int not null,
+primary key(IdDatosMes),
+foreign key(IdMes) references Mes(IdMes),
+foreign key(IdDatos) references DatosGenerales(IdDatosGenerales)
+);
 

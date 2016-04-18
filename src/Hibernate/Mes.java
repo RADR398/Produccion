@@ -1,5 +1,5 @@
 package Hibernate;
-// Generated 16-abr-2016 20:57:58 by Hibernate Tools 4.3.1
+// Generated 04-18-2016 10:44:33 AM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -13,7 +13,7 @@ public class Mes  implements java.io.Serializable {
 
      private Integer idMes;
      private String nombre;
-     private Set datosmeses = new HashSet(0);
+     private Set datosMeses = new HashSet(0);
 
     public Mes() {
     }
@@ -22,9 +22,9 @@ public class Mes  implements java.io.Serializable {
     public Mes(String nombre) {
         this.nombre = nombre;
     }
-    public Mes(String nombre, Set datosmeses) {
+    public Mes(String nombre, Set datosMeses) {
        this.nombre = nombre;
-       this.datosmeses = datosmeses;
+       this.datosMeses = datosMeses;
     }
    
     public Integer getIdMes() {
@@ -41,12 +41,12 @@ public class Mes  implements java.io.Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    public Set getDatosmeses() {
-        return this.datosmeses;
+    public Set getDatosMeses() {
+        return this.datosMeses;
     }
     
-    public void setDatosmeses(Set datosmeses) {
-        this.datosmeses = datosmeses;
+    public void setDatosMeses(Set datosMeses) {
+        this.datosMeses = datosMeses;
     }
 
 

@@ -247,7 +247,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         
-        PlanAgregado p = new PlanAgregado();
+        ProductoInternal p = new ProductoInternal();
         p.setVisible(true);
         fondoInternal.add(p);
         

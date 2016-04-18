@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 16-abr-2016 20:57:59 by Hibernate Tools 4.3.1 -->
+<!-- Generated 04-18-2016 10:44:33 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="Hibernate.Jornada" table="jornada" catalog="inventario" optimistic-lock="version">
+    <class name="Hibernate.Jornada" table="Jornada" catalog="Inventario" optimistic-lock="version">
         <id name="idJornada" type="java.lang.Integer">
             <column name="IdJornada" />
             <generator class="identity" />
@@ -11,17 +11,11 @@
         <property name="año" type="int">
             <column name="Año" not-null="true" />
         </property>
-        <set name="datosgeneraleses" table="datosgenerales" inverse="true" lazy="true" fetch="select">
+        <set name="datosGeneraleses" table="DatosGenerales" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="IdJornada" not-null="true" />
             </key>
-            <one-to-many class="Hibernate.Datosgenerales" />
-        </set>
-        <set name="datosmeses" table="datosmes" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="IdJornada" not-null="true" />
-            </key>
-            <one-to-many class="Hibernate.Datosmes" />
+            <one-to-many class="Hibernate.DatosGenerales" />
         </set>
     </class>
 </hibernate-mapping>

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 16-abr-2016 20:57:59 by Hibernate Tools 4.3.1 -->
+<!-- Generated 04-18-2016 10:44:33 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="Hibernate.Mes" table="mes" catalog="inventario" optimistic-lock="version">
+    <class name="Hibernate.Mes" table="Mes" catalog="Inventario" optimistic-lock="version">
         <id name="idMes" type="java.lang.Integer">
             <column name="IdMes" />
             <generator class="identity" />
@@ -11,11 +11,11 @@
         <property name="nombre" type="string">
             <column name="Nombre" length="10" not-null="true" />
         </property>
-        <set name="datosmeses" table="datosmes" inverse="true" lazy="true" fetch="select">
+        <set name="datosMeses" table="DatosMes" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="IdMes" not-null="true" />
             </key>
-            <one-to-many class="Hibernate.Datosmes" />
+            <one-to-many class="Hibernate.DatosMes" />
         </set>
     </class>
 </hibernate-mapping>

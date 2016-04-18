@@ -2,9 +2,9 @@
 <!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="Inventario"/>
-  <table-filter match-name="datosgenerales"/>
-  <table-filter match-name="datosmes"/>
-  <table-filter match-name="producto"/>
-  <table-filter match-name="mes"/>
-  <table-filter match-name="jornada"/>
+  <table-filter match-name="Producto"/>
+  <table-filter match-name="Mes"/>
+  <table-filter match-name="DatosMes"/>
+  <table-filter match-name="Jornada"/>
+  <table-filter match-name="DatosGenerales"/>
 </hibernate-reverse-engineering>

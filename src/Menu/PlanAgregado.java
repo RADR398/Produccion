@@ -6,7 +6,15 @@
 package Menu;
 
 import Clases.ColumnaRenderer;
+import Clases.NewHibernateUtil;
+import Hibernate.DatosGenerales;
+import Hibernate.DatosMes;
+import Hibernate.Jornada;
+import Hibernate.Mes;
 import javax.swing.table.DefaultTableModel;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import producción.VentanaPrincipal;
 
 /**
@@ -16,7 +24,10 @@ import producción.VentanaPrincipal;
 public class PlanAgregado extends javax.swing.JInternalFrame {
 
     public static DefaultTableModel mimodelo;
- 
+    public ProductoInternal productoInternal;
+    double total_Persecucion,total_FE,total_FO;
+    boolean flag;
+    public DatosGenerales dgs;
     
     public PlanAgregado() {
         initComponents();
@@ -33,34 +44,36 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        datosMes = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
+        txt_materiales = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
-        jTextField11 = new javax.swing.JTextField();
+        txt_mtto = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jTextField12 = new javax.swing.JTextField();
+        txt_marginal_subcontratacion = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jTextField14 = new javax.swing.JTextField();
+        txt_despido = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        jTextField15 = new javax.swing.JTextField();
+        txt_horas_laborales = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        jTextField16 = new javax.swing.JTextField();
+        txt_tiempo_normal = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
-        jTextField17 = new javax.swing.JTextField();
-        jTextField18 = new javax.swing.JTextField();
+        txt_tiempo_extra = new javax.swing.JTextField();
+        txt_contratacion = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
-        jTextField13 = new javax.swing.JTextField();
+        txt_inventario_inicial = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
-        jTextField19 = new javax.swing.JTextField();
+        txt_inventario_seguridad = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        Seleccion = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        Numero_trab = new javax.swing.JTextField();
+        txt_numero_trabajadores = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        Resultado = new javax.swing.JTable();
+        btn_ver = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -70,11 +83,9 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
             e1.printStackTrace();
         }
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {1800, 1500, 1100, 900, 1100, 1600, 1800, 1500, 1100, 900, 1100, 1600},
-                {22, 19, 21, 21, 22, 20,22, 20, 21, 21, 22, 20 }
-            },
+        datosMes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {{"","","","","","","","","","","",""},
+                {"","","","","","","","","","","",""}},
             new String [] {
                 "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
             }
@@ -87,49 +98,35 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
                 return true;
             }
         });
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        datosMes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                jTable1MousePressed(evt);
+                datosMesMousePressed(evt);
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(datosMes);
 
         jLabel1.setText("Materiales");
 
         jLabel11.setText("Cto de Mantenimiento de Inv");
 
-        jLabel12.setText("Cto Marginal de Inventario");
-
-        jTextField11.setText("5");
-
-        jLabel13.setText("Cto Marginal de subcontracion");
+        jLabel13.setText("Cto de Subcontracion");
 
         jLabel2.setText("Cto de Contratacion y Capacitacion");
 
         jLabel14.setText("Cto de Despido");
 
-        jTextField14.setText("250");
-
         jLabel15.setText("Horas Laborales Req");
 
         jLabel16.setText("Cto del Tiempo Normal");
 
-        jTextField16.setText("4");
-
         jLabel17.setText("Cto del Tiempo Extra");
-
-        jTextField18.setText("200");
 
         jLabel18.setText("Inventario Inicial");
 
-        jTextField13.setText("400");
-
-        jLabel19.setText("Inventario de seguridad");
-
-        jTextField19.setText("0.25");
+        jLabel19.setText("Stock de Seguridad");
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Generar");
+        jLabel3.setText("Gestionar");
         jLabel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -139,138 +136,176 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Tipo de Metodo");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione Método", "Persecución", "Fuerza Nivelada y Horas Extras", "Fuerza Nivelada y Outsourcing", " " }));
-        jComboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
+        Seleccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione Método", "Persecución", "Fuerza Nivelada y Horas Extras", "Fuerza Nivelada y Outsourcing", " " }));
+        Seleccion.setEnabled(false);
+        Seleccion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jComboBox1MouseClicked(evt);
+                SeleccionMouseClicked(evt);
             }
         });
 
         jLabel5.setText("Numero de Trabajadores Iniciales");
+
+        jButton1.setText("Atras");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        Resultado.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null}
+            },
+            new String [] {
+                "Persecución", "Fuerza Nivelada HE", "Fuerza Nivelada y O"
+            }
+        ));
+        jScrollPane2.setViewportView(Resultado);
+
+        btn_ver.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btn_ver.setText("Ver");
+        btn_ver.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btn_ver.setEnabled(false);
+        btn_ver.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_verMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(72, 72, 72)
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane1)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel12)
-                                        .addComponent(jLabel13)
-                                        .addComponent(jLabel1)
-                                        .addComponent(jLabel11))
-                                    .addGap(77, 77, 77)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel18)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jLabel19)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addComponent(jLabel4)
-                                            .addGap(168, 168, 168)))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jTextField19, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
-                                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                            .addGap(90, 90, 90)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1231, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_ver, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addGap(52, 52, 52))
+                                    .addComponent(jLabel18)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel17)
-                                            .addComponent(jLabel15)
-                                            .addComponent(jLabel16)
-                                            .addComponent(jLabel14))
-                                        .addGap(122, 122, 122)))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel5)
-                                    .addGap(69, 69, 69)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(Numero_trab, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(41, Short.MAX_VALUE))
+                                            .addComponent(jLabel13)
+                                            .addComponent(jLabel1)
+                                            .addComponent(jLabel11)
+                                            .addComponent(jLabel19)
+                                            .addComponent(jLabel4))
+                                        .addGap(77, 77, 77)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(Seleccion, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txt_inventario_seguridad, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txt_marginal_subcontratacion, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txt_materiales, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txt_mtto, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txt_inventario_inicial, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(98, 98, 98)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                    .addComponent(jLabel2)
+                                                    .addGap(52, 52, 52))
+                                                .addGroup(layout.createSequentialGroup()
+                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jLabel17)
+                                                        .addComponent(jLabel15)
+                                                        .addComponent(jLabel16)
+                                                        .addComponent(jLabel14))
+                                                    .addGap(122, 122, 122)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel5)
+                                                .addGap(69, 69, 69)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txt_numero_trabajadores, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txt_tiempo_extra, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txt_despido, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txt_horas_laborales, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txt_tiempo_normal, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txt_contratacion, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 30, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_contratacion, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_despido, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_horas_laborales, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField16)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(txt_tiempo_normal)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addComponent(txt_tiempo_extra, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(txt_numero_trabajadores, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txt_materiales, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txt_mtto, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(28, 28, 28)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_marginal_subcontratacion, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_inventario_inicial, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_inventario_seguridad, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel5)
-                        .addComponent(Numero_trab, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(Seleccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_ver, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -278,24 +313,81 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-      
-        switch(jComboBox1.getSelectedIndex()){
         
-            case 1: Metodo_Persecucion();
-                break;
-            case 2: Metodo_Fuerza_nivelada();
-                break;
-            case 3: Metodo_Outsourcing();
-                break;
-            
-        }
+        flag = false;
+        Metodo_Fuerza_nivelada();
+        Metodo_Outsourcing();
+        Metodo_Persecucion();
+        Resultado.setValueAt(total_Persecucion, 0, 0);
+        Resultado.setValueAt(total_FE, 0, 1);
+        Resultado.setValueAt(total_FO, 0, 2);
         
+        btn_ver.setEnabled(true);
+        Seleccion.setEnabled(true);
+        
+        DatosGenerales dg = new DatosGenerales();
+        dg.setIdDatosGenerales(this.dgs.getIdDatosGenerales());
+        dg.setCostoContratacion(Float.parseFloat(txt_contratacion.getText()));
+        dg.setCostoDespido(Float.parseFloat(txt_despido.getText()));
+        dg.setCostoHoraExtra(Float.parseFloat(txt_tiempo_extra.getText()));
+        dg.setCostoHoraNormal(Float.parseFloat(txt_tiempo_normal.getText()));
+        dg.setCostoMantenimiento(Float.parseFloat(txt_mtto.getText()));
+        dg.setCostoSubcontratacion(Float.parseFloat(txt_marginal_subcontratacion.getText()));
+        dg.setHorasRequeridas(Float.parseFloat(txt_horas_laborales.getText()));
+        dg.setInversionInicial(Float.parseFloat(txt_inventario_inicial.getText()));
+        Session session = NewHibernateUtil.sessionFactory.openSession();
+        SQLQuery consulta = session.createSQLQuery(String.format("select IdJornada "
+                + "from Jornada "
+                + "where Año=year(curdate())"));
+        int j = Integer.parseInt(consulta.uniqueResult().toString());
+        Jornada jor = new Jornada();
+        jor.setIdJornada(j);
+        dg.setJornada(jor);
+        dg.setMateriales(Float.parseFloat(txt_materiales.getText()));
+        dg.setNumeroTrabajadores(Float.parseFloat(txt_numero_trabajadores.getText()));
+        dg.setProducto(productoInternal.pr);
+        dg.setStockSeguridad(Float.parseFloat(txt_inventario_seguridad.getText()));
+        Transaction tx = session.beginTransaction();
+        session.saveOrUpdate(dg);
+        tx.commit();
+        session.flush();
+        session.close();
+        DefaultTableModel modelo = (DefaultTableModel)datosMes.getModel();
+        
+//        session = NewHibernateUtil.sessionFactory.openSession();
+//        String query = "select IdDatosGenerales from DatosGenerales group by IdDatosGenerales desc limit 1";
+//        SQLQuery c = session.createSQLQuery(String.format(query));
+//        int datos = Integer.parseInt(c.uniqueResult().toString());
+//        DatosGenerales dt = new DatosGenerales();
+//        dt.setIdDatosGenerales(datos);
+//       
+//        
+//        for(int i=1;
+//        (i<=modelo.getColumnCount() && (!modelo.getValueAt(0, i-1).toString().equals("") 
+//        || !modelo.getValueAt(1, i-1).toString().equals("")));i++){
+//            DatosMes dm = new DatosMes();
+//            Mes m = new Mes();
+//            
+//            m.setIdMes(i);
+//            dm.setDatosGenerales(dt);
+//            dm.setMes(m);
+//            dm.setDemanda(Integer.parseInt(modelo.getValueAt(0, i-1).toString()));
+//            dm.setDiasHabiles(Integer.parseInt(modelo.getValueAt(1, i-1).toString()));
+//            
+//            Transaction tn = session.beginTransaction();
+//            session.saveOrUpdate(m);
+//            tn.commit();
+//            session.flush();
+//        }
+//        
+//        session.close();
+//        
         
     }//GEN-LAST:event_jLabel3MouseClicked
 
     public void Metodo_Outsourcing(){
     
-        DefaultTableModel modelo = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel modelo = (DefaultTableModel)datosMes.getModel();
         mimodelo = new DefaultTableModel(){
         
             @Override
@@ -325,17 +417,20 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
         mimodelo.addColumn("Noviembre");
         mimodelo.addColumn("Diciembre");
         
-        double btn_inventario_seguridad = Double.parseDouble(jTextField19.getText().trim());
-        double btn_inventario_inicial = Double.parseDouble(jTextField13.getText().trim());
-        double btn_costo_marginal_inventario = Double.parseDouble(jTextField11.getText().trim());
-        double btn_costo_producto = Double.parseDouble(jTextField9.getText().trim());
-        double btn_costo_outsourcing = Double.parseDouble(jTextField12.getText().trim());
-        double btn_costo_tiempo_normal = Double.parseDouble(jTextField16.getText().trim());
-        double btn_trabajadores_iniciales = Double.parseDouble(Numero_trab.getText().trim());
-        double bnt_costo_mantenimiento = Double.parseDouble(jTextField10.getText().trim());
+        double btn_inventario_seguridad = Double.parseDouble(txt_inventario_seguridad.getText().trim());
+        double btn_inventario_inicial = Double.parseDouble(txt_inventario_inicial.getText().trim());
+        double btn_costo_marginal_inventario = Double.parseDouble(txt_horas_laborales.getText().trim());
+        double btn_costo_producto = Double.parseDouble(txt_materiales.getText().trim());
+        double btn_costo_outsourcing = Double.parseDouble(txt_marginal_subcontratacion.getText().trim());
+        double btn_costo_tiempo_normal = Double.parseDouble(txt_tiempo_normal.getText().trim());
+        double btn_trabajadores_iniciales = Double.parseDouble(txt_numero_trabajadores.getText().trim());
+        double bnt_costo_mantenimiento = Double.parseDouble(txt_mtto.getText().trim());
         double tot = 0;
         
-        for(int i=1;i<=modelo.getColumnCount();i++){
+        for(int i=1;
+        (i<=modelo.getColumnCount() && (!modelo.getValueAt(0, i-1).toString().equals("") 
+        || !modelo.getValueAt(1, i-1).toString().equals("")));i++){
+            
            double dato = Double.parseDouble(modelo.getValueAt(0, i-1).toString());
            double dato_1 = dato*btn_inventario_seguridad;
            double PrimeraFila = dato+dato_1-btn_inventario_inicial;
@@ -377,18 +472,20 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
         }
         
         mimodelo.setValueAt(tot, 11, 1);
-        
-        Metodo metodo = new Metodo();
-        metodo.setVisible(true);
-        VentanaPrincipal.fondoInternal.add(metodo);
-        metodo.p = this;
-        this.setVisible(false);
+        total_FO = tot;
+        if(flag){
+            Metodo metodo = new Metodo();
+            metodo.setVisible(true);
+            VentanaPrincipal.fondoInternal.add(metodo);
+            metodo.p = this;
+            this.setVisible(false);
+        }
     
     }
     
     public void Metodo_Fuerza_nivelada() {
        
-        DefaultTableModel modelo = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel modelo = (DefaultTableModel)datosMes.getModel();
         mimodelo = new DefaultTableModel(){
         
             @Override
@@ -418,17 +515,19 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
         mimodelo.addColumn("Noviembre");
         mimodelo.addColumn("Diciembre");
         
-        double btn_inventario_seguridad = Double.parseDouble(jTextField19.getText().trim());
-        double btn_inventario_inicial = Double.parseDouble(jTextField13.getText().trim());
-        double btn_costo_inventario_agotado = Double.parseDouble(jTextField11.getText().trim());
-        double btn_costo_capacitacion = Double.parseDouble(jTextField18.getText().trim());
-        double btn_costo_despido = Double.parseDouble(jTextField14.getText().trim());
-        double btn_costo_tiempo_normal = Double.parseDouble(jTextField16.getText().trim());
-        double btn_costo_tiempo_extra = Double.parseDouble(jTextField17.getText().trim());
-        double numero_trab =Double.parseDouble(Numero_trab.getText().trim());
+        double btn_inventario_seguridad = Double.parseDouble(txt_inventario_seguridad.getText().trim());
+        double btn_inventario_inicial = Double.parseDouble(txt_inventario_inicial.getText().trim());
+        double btn_costo_inventario_agotado = Double.parseDouble(txt_horas_laborales.getText().trim());
+        double btn_costo_capacitacion = Double.parseDouble(txt_contratacion.getText().trim());
+        double btn_costo_despido = Double.parseDouble(txt_despido.getText().trim());
+        double btn_costo_tiempo_normal = Double.parseDouble(txt_tiempo_normal.getText().trim());
+        double btn_costo_tiempo_extra = Double.parseDouble(txt_tiempo_extra.getText().trim());
+        double numero_trab =Double.parseDouble(txt_numero_trabajadores.getText().trim());
         double tot = 0;
         
-        for(int i=1;i<=modelo.getColumnCount();i++){
+        for(int i=1;
+        (i<=modelo.getColumnCount() && (!modelo.getValueAt(0, i-1).toString().equals("") 
+        || !modelo.getValueAt(1, i-1).toString().equals("")));i++){
            double dato = Double.parseDouble(modelo.getValueAt(0, i-1).toString());
            double dato_1 = dato*btn_inventario_seguridad;
            double PrimeraFila = dato+dato_1-btn_inventario_inicial;
@@ -474,18 +573,19 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
         }
         
         mimodelo.setValueAt(tot, 10, 1);
-        
-        Metodo metodo = new Metodo();
-        metodo.setVisible(true);
-        VentanaPrincipal.fondoInternal.add(metodo);
-        metodo.p = this;
-        this.setVisible(false);
-
+        total_FE = tot;
+        if(flag){
+            Metodo metodo = new Metodo();
+            metodo.setVisible(true);
+            VentanaPrincipal.fondoInternal.add(metodo);
+            metodo.p = this;
+            this.setVisible(false);
+        }
 }
 
     public void Metodo_Persecucion(){
     
-        DefaultTableModel modelo = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel modelo = (DefaultTableModel)datosMes.getModel();
         mimodelo = new DefaultTableModel(){
         
             @Override
@@ -515,19 +615,21 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
         mimodelo.addColumn("Noviembre");
         mimodelo.addColumn("Diciembre");
         
-        double btn_inventario_seguridad = Double.parseDouble(jTextField19.getText().trim());
-        double btn_inventario_inicial = Double.parseDouble(jTextField13.getText().trim());
-        double btn_costo_inventario_agotado = Double.parseDouble(jTextField11.getText().trim());
-        double btn_costo_capacitacion = Double.parseDouble(jTextField18.getText().trim());
-        double btn_costo_despido = Double.parseDouble(jTextField14.getText().trim());
-        double btn_costo_tiempo_normal = Double.parseDouble(jTextField16.getText().trim());
+        double btn_inventario_seguridad = Double.parseDouble(txt_inventario_seguridad.getText().trim());
+        double btn_inventario_inicial = Double.parseDouble(txt_inventario_inicial.getText().trim());
+        double btn_horas_laborales = Double.parseDouble(txt_horas_laborales.getText().trim());
+        double btn_costo_capacitacion = Double.parseDouble(txt_contratacion.getText().trim());
+        double btn_costo_despido = Double.parseDouble(txt_despido.getText().trim());
+        double btn_costo_tiempo_normal = Double.parseDouble(txt_tiempo_normal.getText().trim());
         double tot = 0;
         
-        for(int i=1;i<=modelo.getColumnCount();i++){
+        for(int i=1;
+        (i<=modelo.getColumnCount() && (!modelo.getValueAt(0, i-1).toString().equals("") 
+        || !modelo.getValueAt(1, i-1).toString().equals("")));i++){
            double dato = Double.parseDouble(modelo.getValueAt(0, i-1).toString());
            double dato_1 = dato*btn_inventario_seguridad;
            double PrimeraFila = dato+dato_1-btn_inventario_inicial;
-           double SegundaFila = PrimeraFila*btn_costo_inventario_agotado;
+           double SegundaFila = PrimeraFila*btn_horas_laborales;
            double TerceraFila = Double.parseDouble(modelo.getValueAt(1, i-1).toString());
            double CuartaFila =  8*TerceraFila;
            double QuintaFila = Math.ceil(SegundaFila/CuartaFila);
@@ -570,47 +672,54 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
         }
         
         mimodelo.setValueAt(tot, 11, 1);
-        
-        Metodo metodo = new Metodo();
-        metodo.setVisible(true);
-        VentanaPrincipal.fondoInternal.add(metodo);
-        metodo.p = this;
-        this.setVisible(false);
-    
+        total_Persecucion = tot;
+        if(flag){
+            Metodo metodo = new Metodo();
+            metodo.setVisible(true);
+            VentanaPrincipal.fondoInternal.add(metodo);
+            metodo.p = this;
+            this.setVisible(false);
+        }
     }
-    private void jTable1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MousePressed
+    private void datosMesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_datosMesMousePressed
         
-        jTable1.setDefaultRenderer(Object.class,new ColumnaRenderer());
-        jTable1.setFocusable(true);
-    }//GEN-LAST:event_jTable1MousePressed
-    public final void Enabled(){
-    
-        jTextField10.setEnabled(false);
-        jTextField11.setEnabled(false);
-        jTextField12.setEnabled(false);
-        jTextField13.setEnabled(false);
-        jTextField14.setEnabled(false);
-        jTextField15.setEnabled(false);
-        jTextField16.setEnabled(false);
-        jTextField17.setEnabled(false);
-        jTextField18.setEnabled(false);
-        jTextField19.setEnabled(false);
-       
-        
-    
-    }
-    private void jComboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox1MouseClicked
+        datosMes.setDefaultRenderer(Object.class,new ColumnaRenderer());
+        datosMes.setFocusable(true);
+    }//GEN-LAST:event_datosMesMousePressed
+   
+    private void SeleccionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SeleccionMouseClicked
       
         
-    }//GEN-LAST:event_jComboBox1MouseClicked
+    }//GEN-LAST:event_SeleccionMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        productoInternal.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btn_verMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_verMouseClicked
+        flag = true;
+        
+        switch(Seleccion.getSelectedIndex()){
+            case 1:Metodo_Persecucion();
+                break;
+            case 2:Metodo_Fuerza_nivelada();
+                break;
+            case 3: Metodo_Outsourcing();
+                break;
+        
+        }
+    }//GEN-LAST:event_btn_verMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Numero_trab;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JTable Resultado;
+    private javax.swing.JComboBox<String> Seleccion;
+    private javax.swing.JLabel btn_ver;
+    public javax.swing.JTable datosMes;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -623,17 +732,17 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField16;
-    private javax.swing.JTextField jTextField17;
-    private javax.swing.JTextField jTextField18;
-    private javax.swing.JTextField jTextField19;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JScrollPane jScrollPane2;
+    public javax.swing.JTextField txt_contratacion;
+    public javax.swing.JTextField txt_despido;
+    public javax.swing.JTextField txt_horas_laborales;
+    public javax.swing.JTextField txt_inventario_inicial;
+    public javax.swing.JTextField txt_inventario_seguridad;
+    public javax.swing.JTextField txt_marginal_subcontratacion;
+    public javax.swing.JTextField txt_materiales;
+    public javax.swing.JTextField txt_mtto;
+    public javax.swing.JTextField txt_numero_trabajadores;
+    public javax.swing.JTextField txt_tiempo_extra;
+    public javax.swing.JTextField txt_tiempo_normal;
     // End of variables declaration//GEN-END:variables
 }
