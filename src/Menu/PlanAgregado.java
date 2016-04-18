@@ -8,9 +8,7 @@ package Menu;
 import Clases.ColumnaRenderer;
 import Clases.NewHibernateUtil;
 import Hibernate.DatosGenerales;
-import Hibernate.DatosMes;
 import Hibernate.Jornada;
-import Hibernate.Mes;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -85,7 +83,7 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
 
         datosMes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {{"","","","","","","","","","","",""},
-                {"","","","","","","","","","","",""}},
+                {22,19,21,21,22,20,"","","","","",""}},
             new String [] {
                 "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
             }
@@ -426,11 +424,12 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
         double btn_trabajadores_iniciales = Double.parseDouble(txt_numero_trabajadores.getText().trim());
         double bnt_costo_mantenimiento = Double.parseDouble(txt_mtto.getText().trim());
         double tot = 0;
+        double OctabaFila=0;
         
         for(int i=1;
         (i<=modelo.getColumnCount() && (!modelo.getValueAt(0, i-1).toString().equals("") 
         || !modelo.getValueAt(1, i-1).toString().equals("")));i++){
-            
+           
            double dato = Double.parseDouble(modelo.getValueAt(0, i-1).toString());
            double dato_1 = dato*btn_inventario_seguridad;
            double PrimeraFila = dato+dato_1-btn_inventario_inicial;
@@ -440,15 +439,22 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
            double QuintaFila = btn_trabajadores_iniciales*8*TerceraFila;
            double SextaFila = QuintaFila/btn_costo_marginal_inventario;
            double SeptimaFila = PrimeraFila-SextaFila;
+           
+                
+                
                 if (SeptimaFila <=-1){
-                    SeptimaFila = 0;
+                    SeptimaFila += 0;
+                    OctabaFila += -SeptimaFila+OctabaFila;
+                    
                 }
            
-           double OctabaFila = SextaFila-PrimeraFila;
-                if (OctabaFila <=-1){
-                     OctabaFila = 0;
+                OctabaFila = SextaFila-PrimeraFila;
+                if (OctabaFila >0){
+                     OctabaFila += 0;
+                     SeptimaFila  = SeptimaFila+OctabaFila;
                  }
-           double NovenaFila = SegundaFila*btn_costo_tiempo_normal;
+           
+           double NovenaFila = QuintaFila*btn_costo_tiempo_normal;
            double DecimaFila = SeptimaFila*(btn_costo_outsourcing-btn_costo_producto);
            double OnceabaFila = OctabaFila*bnt_costo_mantenimiento;
            double Doceaba = NovenaFila+DecimaFila+OnceabaFila;
@@ -553,7 +559,7 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
             SeptimaFila = 0;
            }
        
-           double OctabaFila = SegundaFila*btn_costo_tiempo_normal;
+           double OctabaFila = QuintaFila*btn_costo_tiempo_normal;
            double NovenaFila = SextaFila*btn_costo_tiempo_extra;
            double DecimaFila = OctabaFila+NovenaFila;
            tot+=DecimaFila;
@@ -621,11 +627,13 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
         double btn_costo_capacitacion = Double.parseDouble(txt_contratacion.getText().trim());
         double btn_costo_despido = Double.parseDouble(txt_despido.getText().trim());
         double btn_costo_tiempo_normal = Double.parseDouble(txt_tiempo_normal.getText().trim());
+        double btn_numero_trabajadores = Double.parseDouble(txt_numero_trabajadores.getText().trim());
         double tot = 0;
         
         for(int i=1;
         (i<=modelo.getColumnCount() && (!modelo.getValueAt(0, i-1).toString().equals("") 
         || !modelo.getValueAt(1, i-1).toString().equals("")));i++){
+            
            double dato = Double.parseDouble(modelo.getValueAt(0, i-1).toString());
            double dato_1 = dato*btn_inventario_seguridad;
            double PrimeraFila = dato+dato_1-btn_inventario_inicial;
@@ -648,6 +656,20 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
                    SextaFila = -value;
            
                 }
+           
+           }else{
+           
+               double value = QuintaFila-btn_numero_trabajadores;
+               
+               if(value>0){
+               
+                   SextaFila = value;
+               
+               }else{
+               
+                  OctabaFila = -value;
+               
+               }
            
            }
            
