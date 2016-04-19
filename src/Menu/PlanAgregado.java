@@ -442,16 +442,16 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
            
                 
                 
-                if (SeptimaFila <=-1){
-                    SeptimaFila += 0;
-                    OctabaFila += -SeptimaFila+OctabaFila;
+                if (SeptimaFila >0){
                     
+                    SeptimaFila  +=-OctabaFila;
+                    OctabaFila = 0;
+    
                 }
-           
-                OctabaFila = SextaFila-PrimeraFila;
-                if (OctabaFila >0){
-                     OctabaFila += 0;
-                     SeptimaFila  = SeptimaFila+OctabaFila;
+                else {
+                     
+                     OctabaFila += -SeptimaFila;
+                     SeptimaFila = 0;
                  }
            
            double NovenaFila = QuintaFila*btn_costo_tiempo_normal;
