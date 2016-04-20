@@ -33,7 +33,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     
     public VentanaPrincipal() {
         initComponents();
-        NewHibernateUtil.getSessionFactory("root", "1234");
         init();
     }
 

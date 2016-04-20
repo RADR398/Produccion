@@ -8,6 +8,7 @@ package Clases;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -40,7 +41,8 @@ public class NewHibernateUtil {
             
             return true;
         } catch (Exception ex) {
-            System.out.println("Error en:" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Lo sentimos puede que exista un error en la conexion\n"
+                    + "o un error en la contraseña","Error de Entrada",JOptionPane.ERROR_MESSAGE);
             return false;
         }
         
