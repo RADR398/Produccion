@@ -485,14 +485,13 @@ public  String getCadenaAlfanumAleatoria (int longitud){
                    + "where IdDatos=:idDatos"));
            consulta3.setParameter("idDatos", val.getIdDatosGenerales());
            
-           List<DatosMes> meses = (List<DatosMes>)consulta3.list();
+           List<DatosMes> meses = (List<DatosMes>)consulta3.addEntity(DatosMes.class).list();
            
-           for(DatosMes m : meses){
-               
+           meses.stream().map((m) -> {
                modelo.setValueAt(m.getDemanda(), 0, m.getIdDatosMes()-1);
                modelo.setValueAt(m.getDiasHabiles(), 1, m.getIdDatosMes()-1);
-               
-           }
+               return m;
+           });
           
        
        }
