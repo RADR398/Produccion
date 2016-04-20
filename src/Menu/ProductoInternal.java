@@ -487,12 +487,12 @@ public  String getCadenaAlfanumAleatoria (int longitud){
            
            List<DatosMes> meses = (List<DatosMes>)consulta3.list();
            
-           meses.stream().map((m) -> {
+           for(DatosMes m : meses){
+               
                modelo.setValueAt(m.getDemanda(), 0, m.getIdDatosMes()-1);
-               return m;
-           }).forEach((m) -> {
                modelo.setValueAt(m.getDiasHabiles(), 1, m.getIdDatosMes()-1);
-           });
+               
+           }
           
        
        }

@@ -60,3 +60,6 @@ foreign key(IdMes) references Mes(IdMes),
 foreign key(IdDatos) references DatosGenerales(IdDatosGenerales)
 );
 
+insert into Mes(Nombre) 
+values('Enero')('Febrero'),('Marzo'),('Abril'),('Mayo'),('Junio'),
+      ('Julio')('Agosto'),('Septiembre'),('Octubre'),('Noviembre'),('Diciembre');

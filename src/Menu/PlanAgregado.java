@@ -358,6 +358,8 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
         int datos = Integer.parseInt(c.uniqueResult().toString());
         DatosGenerales dt = new DatosGenerales();
         dt.setIdDatosGenerales(datos);
+       
+        session = NewHibernateUtil.sessionFactory.openSession();
         Transaction tn = session.beginTransaction();
         
         for(int i=1;
@@ -372,8 +374,8 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
             dm.setDemanda(Integer.parseInt(modelo.getValueAt(0, i-1).toString()));
             dm.setDiasHabiles(Integer.parseInt(modelo.getValueAt(1, i-1).toString()));
             
-           
-            session.saveOrUpdate(m);
+            session.saveOrUpdate(dm);
+            
             
         }
         tn.commit();
