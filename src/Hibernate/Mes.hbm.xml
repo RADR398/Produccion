@@ -9,7 +9,7 @@
             <generator class="identity" />
         </id>
         <property name="nombre" type="string">
-            <column name="Nombre" length="10" not-null="true" />
+            <column name="Nombre" length="10" not-null="false" />
         </property>
         <set name="datosMeses" table="DatosMes" inverse="true" lazy="true" fetch="select">
             <key>

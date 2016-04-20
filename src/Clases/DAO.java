@@ -5,8 +5,7 @@
  */
 package Clases;
 
-import Hibernate.Jornada;
-import Hibernate.Producto;
+import Hibernate.*;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -58,4 +57,18 @@ public class DAO {
         return fecha;
     
     }
+    
+    public static void SaveOrUpdate(DatosGenerales dg)
+    {
+        
+        Session session = NewHibernateUtil.sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        session.saveOrUpdate(dg);
+        tx.commit();
+        session.flush();
+        session.close();
+    
+    }
+    
+    
 }

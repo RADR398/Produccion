@@ -24,7 +24,7 @@ primary key(IdProducto)
 
 create table Mes(
 IdMes int not null auto_increment,
-Nombre varchar(10) not null,
+Nombre varchar(10),
 primary key(IdMes)
 );
 

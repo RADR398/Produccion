@@ -8,7 +8,6 @@ package producción;
 
 import Clases.Fondo;
 import Clases.NewHibernateUtil;
-import Menu.PlanAgregado;
 import Menu.ProductoInternal;
 import java.awt.Color;
 import java.awt.GraphicsDevice;
@@ -38,6 +37,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     public final void init(){
         
+        NewHibernateUtil.getSessionFactory("Marvin", "rene123");
         setExtendedState(MAXIMIZED_BOTH);
         GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
         screen = environment.getDefaultScreenDevice();

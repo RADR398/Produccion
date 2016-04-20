@@ -6,9 +6,9 @@
 package Menu;
 
 import Clases.ColumnaRenderer;
+import Clases.DAO;
 import Clases.NewHibernateUtil;
-import Hibernate.DatosGenerales;
-import Hibernate.Jornada;
+import Hibernate.*;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -345,40 +345,40 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
         dg.setNumeroTrabajadores(Float.parseFloat(txt_numero_trabajadores.getText()));
         dg.setProducto(productoInternal.pr);
         dg.setStockSeguridad(Float.parseFloat(txt_inventario_seguridad.getText()));
-        Transaction tx = session.beginTransaction();
-        session.saveOrUpdate(dg);
-        tx.commit();
+        session.close();
+        
+        DAO.SaveOrUpdate(dg);
+        
+        DefaultTableModel modelo = (DefaultTableModel)datosMes.getModel();
+        session = NewHibernateUtil.sessionFactory.openSession();
+        
+        String query = "select IdDatosGenerales from DatosGenerales group by IdDatosGenerales desc limit 1";
+        SQLQuery c = session.createSQLQuery(String.format(query));
+        
+        int datos = Integer.parseInt(c.uniqueResult().toString());
+        DatosGenerales dt = new DatosGenerales();
+        dt.setIdDatosGenerales(datos);
+        Transaction tn = session.beginTransaction();
+        
+        for(int i=1;
+        (i<=modelo.getColumnCount() && (!modelo.getValueAt(0, i-1).toString().equals("") 
+        || !modelo.getValueAt(1, i-1).toString().equals("")));i++){
+            DatosMes dm = new DatosMes();
+            Mes m = new Mes();
+            
+            m.setIdMes(i);
+            dm.setDatosGenerales(dt);
+            dm.setMes(m);
+            dm.setDemanda(Integer.parseInt(modelo.getValueAt(0, i-1).toString()));
+            dm.setDiasHabiles(Integer.parseInt(modelo.getValueAt(1, i-1).toString()));
+            
+           
+            session.saveOrUpdate(m);
+            
+        }
+        tn.commit();
         session.flush();
         session.close();
-        DefaultTableModel modelo = (DefaultTableModel)datosMes.getModel();
-        
-//        session = NewHibernateUtil.sessionFactory.openSession();
-//        String query = "select IdDatosGenerales from DatosGenerales group by IdDatosGenerales desc limit 1";
-//        SQLQuery c = session.createSQLQuery(String.format(query));
-//        int datos = Integer.parseInt(c.uniqueResult().toString());
-//        DatosGenerales dt = new DatosGenerales();
-//        dt.setIdDatosGenerales(datos);
-//       
-//        
-//        for(int i=1;
-//        (i<=modelo.getColumnCount() && (!modelo.getValueAt(0, i-1).toString().equals("") 
-//        || !modelo.getValueAt(1, i-1).toString().equals("")));i++){
-//            DatosMes dm = new DatosMes();
-//            Mes m = new Mes();
-//            
-//            m.setIdMes(i);
-//            dm.setDatosGenerales(dt);
-//            dm.setMes(m);
-//            dm.setDemanda(Integer.parseInt(modelo.getValueAt(0, i-1).toString()));
-//            dm.setDiasHabiles(Integer.parseInt(modelo.getValueAt(1, i-1).toString()));
-//            
-//            Transaction tn = session.beginTransaction();
-//            session.saveOrUpdate(m);
-//            tn.commit();
-//            session.flush();
-//        }
-//        
-//        session.close();
 //        
         
     }//GEN-LAST:event_jLabel3MouseClicked
