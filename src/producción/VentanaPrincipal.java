@@ -58,6 +58,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         fondoInternal = new Fondo();
         jPanel3 = new javax.swing.JPanel();
 
+        jMenuBar1.setBackground(java.awt.Color.darkGray);
+
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/06_menu_grid-512_1.png"))); // NOI18N
         jMenu1.setText("Menu");
 
@@ -80,7 +82,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
 
         jPanel1.setBackground(Color.DARK_GRAY);
-        jPanel1.setBackground(new java.awt.Color(51, 53, 62));
+        jPanel1.setBackground(java.awt.Color.darkGray);
 
         screenlbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/unfullscreen.png"))); // NOI18N
         screenlbl.addMouseListener(new java.awt.event.MouseAdapter() {

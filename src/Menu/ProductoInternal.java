@@ -40,6 +40,7 @@ public class ProductoInternal extends javax.swing.JInternalFrame {
     public int value = 0;
     boolean flag_nuevo;
     public Producto pr;
+    public int tamList;
    
     public ProductoInternal() {
         initComponents();
@@ -395,14 +396,16 @@ public  String getCadenaAlfanumAleatoria (int longitud){
             int añoval = Integer.parseInt(año.uniqueResult().toString());
             DefaultComboBoxModel modelo = new DefaultComboBoxModel();
             modelo.addElement("Seleccionar Opcion");
+            List años =  sql.list();
             
-            if(sql.list().size()==0){
+            if(sql.list().isEmpty()){
             
                 modelo.addElement("Año "+añoval);
             
             }
             
             sql.list().stream().forEach((i) -> {
+                
                 if(Integer.parseInt(i.toString()) == añoval){
                     String val = ("Año "+i.toString());
                     modelo.addElement(val);
@@ -485,14 +488,16 @@ public  String getCadenaAlfanumAleatoria (int longitud){
                    + "where IdDatos=:idDatos"));
            consulta3.setParameter("idDatos", val.getIdDatosGenerales());
            
-           List<DatosMes> meses = (List<DatosMes>)consulta3.addEntity(DatosMes.class).list();
+           List<DatosMes> dms = (List<DatosMes>)consulta3.addEntity(DatosMes.class).list();
            
-           meses.stream().map((m) -> {
-               modelo.setValueAt(m.getDemanda(), 0, m.getIdDatosMes()-1);
-               modelo.setValueAt(m.getDiasHabiles(), 1, m.getIdDatosMes()-1);
-               return m;
+           dms.stream().map((dm) -> {
+               modelo.setValueAt(dm.getDemanda(), 0, dm.getIdDatosMes()-1);
+               return dm;
+           }).forEach((dm) -> {
+               modelo.setValueAt(dm.getDiasHabiles(), 1, dm.getIdDatosMes()-1);
            });
-          
+
+          tamList = dms.size();
        
        }
         session.close();

@@ -63,7 +63,6 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
         txt_inventario_inicial = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         txt_inventario_seguridad = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         Seleccion = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
@@ -71,7 +70,9 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         Resultado = new javax.swing.JTable();
-        btn_ver = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        btn_ver = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -123,15 +124,6 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
 
         jLabel19.setText("Stock de Seguridad");
 
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Gestionar");
-        jLabel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
-            }
-        });
-
         jLabel4.setText("Tipo de Metodo");
 
         Seleccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione Método", "Persecución", "Fuerza Nivelada y Horas Extras", "Fuerza Nivelada y Outsourcing", " " }));
@@ -161,15 +153,43 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
         ));
         jScrollPane2.setViewportView(Resultado);
 
-        btn_ver.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel1.setBackground(java.awt.Color.darkGray);
+
         btn_ver.setText("Ver");
-        btn_ver.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btn_ver.setEnabled(false);
-        btn_ver.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_verMouseClicked(evt);
+        btn_ver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_verActionPerformed(evt);
             }
         });
+
+        jButton2.setText("Gestionar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_ver, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(3, 3, 3)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_ver)
+                    .addComponent(jButton2))
+                .addGap(3, 3, 3))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -181,59 +201,54 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton1)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1231, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1233, Short.MAX_VALUE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btn_ver, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel18)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel18)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel13)
-                                            .addComponent(jLabel1)
-                                            .addComponent(jLabel11)
-                                            .addComponent(jLabel19)
-                                            .addComponent(jLabel4))
-                                        .addGap(77, 77, 77)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(Seleccion, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txt_inventario_seguridad, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txt_marginal_subcontratacion, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txt_materiales, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txt_mtto, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txt_inventario_inicial, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(98, 98, 98)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel11)
+                                    .addComponent(jLabel19)
+                                    .addComponent(jLabel4))
+                                .addGap(77, 77, 77)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Seleccion, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_inventario_seguridad, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_marginal_subcontratacion, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_materiales, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_mtto, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_inventario_inicial, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(98, 98, 98)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addComponent(jLabel2)
+                                            .addGap(52, 52, 52))
+                                        .addGroup(layout.createSequentialGroup()
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                    .addComponent(jLabel2)
-                                                    .addGap(52, 52, 52))
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel17)
-                                                        .addComponent(jLabel15)
-                                                        .addComponent(jLabel16)
-                                                        .addComponent(jLabel14))
-                                                    .addGap(122, 122, 122)))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel5)
-                                                .addGap(69, 69, 69)))
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txt_numero_trabajadores, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txt_tiempo_extra, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txt_despido, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txt_horas_laborales, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txt_tiempo_normal, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txt_contratacion, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addComponent(jLabel17)
+                                                .addComponent(jLabel15)
+                                                .addComponent(jLabel16)
+                                                .addComponent(jLabel14))
+                                            .addGap(122, 122, 122)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addGap(69, 69, 69)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txt_numero_trabajadores, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_tiempo_extra, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_despido, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_horas_laborales, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_tiempo_normal, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_contratacion, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 30, Short.MAX_VALUE))))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -300,90 +315,12 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(Seleccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_ver, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        
-        flag = false;
-        Metodo_Fuerza_nivelada();
-        Metodo_Outsourcing();
-        Metodo_Persecucion();
-        Resultado.setValueAt(total_Persecucion, 0, 0);
-        Resultado.setValueAt(total_FE, 0, 1);
-        Resultado.setValueAt(total_FO, 0, 2);
-        
-        btn_ver.setEnabled(true);
-        Seleccion.setEnabled(true);
-        
-        DatosGenerales dg = new DatosGenerales();
-        dg.setIdDatosGenerales(this.dgs.getIdDatosGenerales());
-        dg.setCostoContratacion(Float.parseFloat(txt_contratacion.getText()));
-        dg.setCostoDespido(Float.parseFloat(txt_despido.getText()));
-        dg.setCostoHoraExtra(Float.parseFloat(txt_tiempo_extra.getText()));
-        dg.setCostoHoraNormal(Float.parseFloat(txt_tiempo_normal.getText()));
-        dg.setCostoMantenimiento(Float.parseFloat(txt_mtto.getText()));
-        dg.setCostoSubcontratacion(Float.parseFloat(txt_marginal_subcontratacion.getText()));
-        dg.setHorasRequeridas(Float.parseFloat(txt_horas_laborales.getText()));
-        dg.setInversionInicial(Float.parseFloat(txt_inventario_inicial.getText()));
-        Session session = NewHibernateUtil.sessionFactory.openSession();
-        SQLQuery consulta = session.createSQLQuery(String.format("select IdJornada "
-                + "from Jornada "
-                + "where Año=year(curdate())"));
-        int j = Integer.parseInt(consulta.uniqueResult().toString());
-        Jornada jor = new Jornada();
-        jor.setIdJornada(j);
-        dg.setJornada(jor);
-        dg.setMateriales(Float.parseFloat(txt_materiales.getText()));
-        dg.setNumeroTrabajadores(Float.parseFloat(txt_numero_trabajadores.getText()));
-        dg.setProducto(productoInternal.pr);
-        dg.setStockSeguridad(Float.parseFloat(txt_inventario_seguridad.getText()));
-        session.close();
-        
-        DAO.SaveOrUpdate(dg);
-        
-        DefaultTableModel modelo = (DefaultTableModel)datosMes.getModel();
-        session = NewHibernateUtil.sessionFactory.openSession();
-        
-        String query = "select IdDatosGenerales from DatosGenerales group by IdDatosGenerales desc limit 1";
-        SQLQuery c = session.createSQLQuery(String.format(query));
-        
-        int datos = Integer.parseInt(c.uniqueResult().toString());
-        DatosGenerales dt = new DatosGenerales();
-        dt.setIdDatosGenerales(datos);
-       
-        session = NewHibernateUtil.sessionFactory.openSession();
-        Transaction tn = session.beginTransaction();
-        
-        for(int i=1;
-        (i<=modelo.getColumnCount() && (!modelo.getValueAt(0, i-1).toString().equals("") 
-        || !modelo.getValueAt(1, i-1).toString().equals("")));i++){
-            DatosMes dm = new DatosMes();
-            Mes m = new Mes();
-            
-            m.setIdMes(i);
-            dm.setDatosGenerales(dt);
-            dm.setMes(m);
-            dm.setDemanda(Integer.parseInt(modelo.getValueAt(0, i-1).toString()));
-            dm.setDiasHabiles(Integer.parseInt(modelo.getValueAt(1, i-1).toString()));
-            
-            session.saveOrUpdate(dm);
-            
-            
-        }
-        tn.commit();
-        session.flush();
-        session.close();
-//        
-        
-    }//GEN-LAST:event_jLabel3MouseClicked
 
     public void Metodo_Outsourcing(){
     
@@ -721,27 +658,107 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void btn_verMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_verMouseClicked
-        flag = true;
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       flag = false;
+        Metodo_Fuerza_nivelada();
+        Metodo_Outsourcing();
+        Metodo_Persecucion();
+        Resultado.setValueAt(total_Persecucion, 0, 0);
+        Resultado.setValueAt(total_FE, 0, 1);
+        Resultado.setValueAt(total_FO, 0, 2);
         
+        btn_ver.setEnabled(true);
+        Seleccion.setEnabled(true);
+        
+        DatosGenerales dg = new DatosGenerales();
+        dg.setIdDatosGenerales(this.dgs.getIdDatosGenerales());
+        dg.setCostoContratacion(Float.parseFloat(txt_contratacion.getText()));
+        dg.setCostoDespido(Float.parseFloat(txt_despido.getText()));
+        dg.setCostoHoraExtra(Float.parseFloat(txt_tiempo_extra.getText()));
+        dg.setCostoHoraNormal(Float.parseFloat(txt_tiempo_normal.getText()));
+        dg.setCostoMantenimiento(Float.parseFloat(txt_mtto.getText()));
+        dg.setCostoSubcontratacion(Float.parseFloat(txt_marginal_subcontratacion.getText()));
+        dg.setHorasRequeridas(Float.parseFloat(txt_horas_laborales.getText()));
+        dg.setInversionInicial(Float.parseFloat(txt_inventario_inicial.getText()));
+        Session session = NewHibernateUtil.sessionFactory.openSession();
+        SQLQuery consulta = session.createSQLQuery(String.format("select IdJornada "
+                + "from Jornada "
+                + "where Año=year(curdate())"));
+        int j = Integer.parseInt(consulta.uniqueResult().toString());
+        Jornada jor = new Jornada();
+        jor.setIdJornada(j);
+        dg.setJornada(jor);
+        dg.setMateriales(Float.parseFloat(txt_materiales.getText()));
+        dg.setNumeroTrabajadores(Float.parseFloat(txt_numero_trabajadores.getText()));
+        dg.setProducto(productoInternal.pr);
+        dg.setStockSeguridad(Float.parseFloat(txt_inventario_seguridad.getText()));
+        session.close();
+        
+        DAO.SaveOrUpdate(dg);
+        
+        DefaultTableModel modelo = (DefaultTableModel)datosMes.getModel();
+        session = NewHibernateUtil.sessionFactory.openSession();
+        
+        String query = "select IdDatosGenerales from DatosGenerales group by IdDatosGenerales desc limit 1";
+        SQLQuery c = session.createSQLQuery(String.format(query));
+        
+        int datos = Integer.parseInt(c.uniqueResult().toString());
+        DatosGenerales dt = new DatosGenerales();
+        dt.setIdDatosGenerales(datos);
+       
+        session = NewHibernateUtil.sessionFactory.openSession();
+        Transaction tn = session.beginTransaction();
+        
+        for(int i=1;
+        (i<=modelo.getColumnCount() && (!modelo.getValueAt(0, i-1).toString().equals("") 
+        || !modelo.getValueAt(1, i-1).toString().equals("")));i++){
+            
+            DatosMes dm = new DatosMes();
+            if(i<=productoInternal.tamList){
+            
+                dm.setIdDatosMes(i);
+            
+            }
+            Mes m = new Mes();
+            
+            m.setIdMes(i);
+            dm.setDatosGenerales(dt);
+            dm.setMes(m);
+            dm.setDemanda(Integer.parseInt(modelo.getValueAt(0, i-1).toString()));
+            dm.setDiasHabiles(Integer.parseInt(modelo.getValueAt(1, i-1).toString()));
+            
+            session.saveOrUpdate(dm);
+            
+            
+        }
+        tn.commit();
+        session.flush();
+        session.close();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btn_verActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_verActionPerformed
+        
+        flag = true;
+
         switch(Seleccion.getSelectedIndex()){
             case 1:Metodo_Persecucion();
-                break;
+            break;
             case 2:Metodo_Fuerza_nivelada();
-                break;
+            break;
             case 3: Metodo_Outsourcing();
-                break;
-        
+            break;
+
         }
-    }//GEN-LAST:event_btn_verMouseClicked
+    }//GEN-LAST:event_btn_verActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable Resultado;
     private javax.swing.JComboBox<String> Seleccion;
-    private javax.swing.JLabel btn_ver;
+    private javax.swing.JButton btn_ver;
     public javax.swing.JTable datosMes;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
@@ -752,9 +769,9 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     public javax.swing.JTextField txt_contratacion;
