@@ -84,7 +84,7 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
 
         datosMes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {{"","","","","","","","","","","",""},
-                {22,19,21,21,22,20,"","","","","",""}},
+                {"","","","","","","","","","","",""}},
             new String [] {
                 "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
             }
@@ -698,11 +698,19 @@ public class PlanAgregado extends javax.swing.JInternalFrame {
         
         DefaultTableModel modelo = (DefaultTableModel)datosMes.getModel();
         session = NewHibernateUtil.sessionFactory.openSession();
+        int datos;
+        if(dgs.getIdDatosGenerales()==0){
+            String query = "select IdDatosGenerales from DatosGenerales group by IdDatosGenerales desc limit 1";
+            SQLQuery c = session.createSQLQuery(String.format(query));
         
-        String query = "select IdDatosGenerales from DatosGenerales group by IdDatosGenerales desc limit 1";
-        SQLQuery c = session.createSQLQuery(String.format(query));
+            datos = Integer.parseInt(c.uniqueResult().toString());
         
-        int datos = Integer.parseInt(c.uniqueResult().toString());
+        }else{
+        
+            datos=dgs.getIdDatosGenerales();
+        
+        }
+        
         DatosGenerales dt = new DatosGenerales();
         dt.setIdDatosGenerales(datos);
        

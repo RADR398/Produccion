@@ -11,6 +11,7 @@
 package producción;
 
 import Clases.NewHibernateUtil;
+import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
@@ -71,6 +72,11 @@ public class Login extends javax.swing.JFrame {
         txtcontra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtcontraActionPerformed(evt);
+            }
+        });
+        txtcontra.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtcontraKeyReleased(evt);
             }
         });
 
@@ -253,6 +259,21 @@ public class Login extends javax.swing.JFrame {
     private void buttonAction2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAction2ActionPerformed
        System.exit(0);
     }//GEN-LAST:event_buttonAction2ActionPerformed
+
+    private void txtcontraKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcontraKeyReleased
+       if(KeyEvent.VK_ENTER==evt.getKeyChar()){
+       
+           boolean value = NewHibernateUtil.getSessionFactory(txtuser.getText().trim(),
+                    new String(txtcontra.getPassword()));
+            if(value){
+                
+                new VentanaPrincipal().setVisible(true);
+                this.dispose();
+            
+            }
+       
+       }
+    }//GEN-LAST:event_txtcontraKeyReleased
 
     /**
      * @param args the command line arguments
